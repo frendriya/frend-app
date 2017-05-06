@@ -1,0 +1,155 @@
+To Do
+
+refresh -- done
+factory/service -- done
+login mechanism 2 h -- done
+register  2 h  -- done
+main page  4h
+logout    1 h
+session management.
+------------------------------------------------------------------------------------
+
+{
+  "constUser": [
+    {
+      "username": "",
+      "password": "",
+      "email": "",
+      "lastLoginTime": ""
+    }
+  ]
+}
+------------------------------------------------------------------------------------
+
+      <div class="col-sm-1">
+      </div>
+      <div class="col-sm-6">
+      <br>
+      <br>
+      <form>
+      <label style="float:left;width: 20%;text-align:center">Result:</label>
+      <input type="text" id="txtresult" name="TextResult" size="6" disabled style="float:left;width: 10%">
+      <br>
+      <br>
+      <label style="float:left;width: 20%;text-align:center">Number:</label>
+      <input type="text" id="RandomChar" name="RandomChar" size="3" disabled style="float:left;width: 10%" autocomplete="off" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false"> 
+      <br>
+      <br>
+      <label style="float:left;width: 20%;text-align:center">Your Input:</label>
+      <input type="text" id="txtinput" name="UserInput" size="4" style="float:left;width: 10%" autofocus autocomplete="off" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false">
+      <br>
+      <br>
+      <input type="button" id="submitButton" name="clickbtn" value="Submit" onclick="Verify_number()" style="float:left;width: 15%;text-align:center" >
+      <input type="button"  id="viewResult" value="View Result" onclick="tableVisibility(0)" style="float:left;width: 15%;text-align:center" >
+      <input type="button" id="hideResult" value="Hide Result" onclick="tableVisibility(1)" style="float:left;width: 15%;text-align:center; visibility: hidden;" >
+      </form>
+      <br>
+      <br>
+      <br>
+        <table id="resultTable" class="table table-sm table-inverse" style="width: 50%; display: none">
+        <thead>
+          <tr style="background-color: #e6e600">
+            <th style= "border: 2px solid #003366;text-align: left;padding: 2px">Result</th>
+            <th style= "border: 2px solid #003366;text-align: center;padding: 2px">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background-color: #b3d9ff">
+            <th style= "border: 2px solid #003366;text-align: left;padding: 2px">Total Attempts</td>
+            <td style= "border: 2px solid #003366;text-align: center;padding: 2px">0</td>
+          </tr>
+          <tr style="background-color: #00cc00">
+            <th style= "border: 2px solid #003366;text-align: left;padding: 2px">Total Correct</td>
+            <td style= "border: 2px solid #003366;text-align: center;padding: 2px">0</td>
+          </tr>
+          <tr style="background-color: #ff6699">
+            <th style= "border: 2px solid #003366;text-align: left;padding: 2px">Total Incorrect</td>
+            <td style= "border: 2px solid #003366;text-align: center;padding: 2px">0</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="col-sm-4">
+      <br>
+      <br>
+      <p id="demo" style="background-color: lightgrey;width: 300px;border: 1px solid green;text-align:left;font-size:54px"></p>
+      <br>
+      <br>
+      </div>
+      <div class="col-sm-1">
+      <br>
+      <input type="button" name="logout" value="Logout" onclick="logOut()">
+      </div>
+
+
+------------------------------------------------------------------------------------
+
+app.post('/createUser', function(req, res) {
+// if(validateCredentials(req.body.username,req.body.password)){
+// 	return res.status(200).send({
+//    message: 'Successfully logged in!',
+//    code:true
+// });
+// }else{
+// return res.status(400).send({
+//    message: 'Wrong Username or Password!',
+//    code:false
+// });
+// }
+var fileName = './test.json';
+var content = fs.readFileSync("test.json");
+var jsonContent = JSON.parse(content);
+var keysArray = Object.keys(jsonContent);
+console.log(req.body.username,req.body.password,req.body.email);
+
+	jsonContent[req.body.username]  = [{
+      "username": req.body.username,
+      "password": req.body.password,
+      "email": req.body.email,
+      "lastLoginTime": ""
+    }];
+		fs.writeFile(fileName, JSON.stringify(jsonContent,null,2), function (err) {
+		if (err) return console.log(err);
+		 });
+// for (var key in jsonContent) {
+//     console.log(key + ": " + jsonContent[key].firstName + '\n');
+// }
+// console.log(jsonContent);
+// console.log(jsonContent.accounting[0].firstName);
+// console.log(JSON.stringify(jsonContent.accounting));
+// console.log(JSON.stringify(jsonContent));
+// console.log();// to find all the objects
+// console.log(Object.keys(jsonContent).length);
+
+// for (var i = 0; i < keysArray.length; i++) {
+//    var key = keysArray[i]; // here is "name" of object property
+//    var value = jsonContent[key]; // here get value "by name" as it expected with objects
+//    console.log(key);
+//    console.log(value[0].firstName);
+
+//    console.log(key, value);
+
+// }
+
+// var name = 'Anothername';
+
+// 		jsonContent[name]  = [{
+//       "username": "Mamta",
+//       "password": "1234",
+//       "email": "mamtaagarwal750@gmail.com",
+//       "lastLoginTime": 1493924182
+//     }];
+// 		fs.writeFile(fileName, JSON.stringify(jsonContent,null,2), function (err) {
+// 		if (err) return console.log(err);
+// 		 });
+
+return res.status(200).send({
+   message: 'User Might have created Successfully!',
+   code:true
+});
+
+
+});
+
+
+
