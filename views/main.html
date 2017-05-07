@@ -21,7 +21,7 @@
  <div class="col-sm-6">
  <br>
  <br>
- <form>
+ <form ng-show="show">
       <label style="float:left;width: 20%;text-align:center">Result:</label>
       <input type="text" value="{{lastResult}}" disabled style="float:left;width: 10%;background-color:{{resultColor}}">
       <br>
@@ -31,10 +31,10 @@
       <br>
       <br>
       <label style="float:left;width: 20%;text-align:center">Your Input:</label>
-      <input type="text" ng-model="userInput" style="float:left;width: 10%" autofocus autocomplete="off" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false">
+      <input type="text" ng-model="userInput" style="float:left;width: 10%" autofocus autocomplete="off" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" required="true">
       <br>
       <br>
-      <input type="button" value="Submit" ng-click="pause()" style="float:left;width: 15%;text-align:center" >
+      <input type="Submit" value="Submit" ng-click="Verify_number()" style="float:left;width: 15%;text-align:center" >
       <input type="button" value="View Result" ng-click="generateNumber()" style="float:left;width: 15%;text-align:center" >
       <input type="button" value="Hide Result" onclick="generateNumber()" style="float:left;width: 15%;text-align:center; visibility: hidden;" >
       </form>
@@ -64,14 +64,14 @@
         </tbody>
       </table>
  </div>
- <div class="col-sm-4" ng-init="start()">
+ <div class="col-sm-4">
       <br>
       <br>
       <p id="demo" style="background-color: lightgrey;width: 300px;border: 1px solid green;text-align:left;font-size:54px">{{timer}}</p>
        <p style="color:red" id="message">{{message}}</p>
-
-       <input type="button" value="Pause" ng-click="pause()" style="float:left;width: 15%;text-align:center" >
-       <input type="button" value="Resume" ng-click="start()" style="float:left;width: 15%;text-align:center" >
+       <input type="button" value="Start" ng-click="start()" ng-hide="show" style="float:left;width: 15%;text-align:center" >
+       <input type="button" value="Pause" ng-click="pause()" ng-hide="myVar" style="float:left;width: 15%;text-align:center" >
+       <input type="button" value="Resume" ng-click="startTimer()" ng-show="myVar" style="float:left;width: 18%;text-align:center" >
 
       <br>
       <br>
@@ -79,7 +79,7 @@
  <div class="col-sm-1">
  	<br>
       <br>
-      <input type="button" value="Logout" ng-click="start()">
+      <input type="button" value="Logout" ng-click="logOut()">
  </div>
  
 </div>
