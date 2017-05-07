@@ -66,6 +66,22 @@ return res.status(400).send({
 }
 });
 
+app.post('/save', function(req, res) {
+	if(req.body.data == null){
+	return res.status(400).send({
+   message: 'Username, Password, Email are mandatory to create an user!',
+   code:false
+});
+}
+else{
+	save(req.body.data);
+return res.status(200).send({
+   message: 'User already exists!! Please choose another username!!',
+   code:false
+});
+}
+});
+
 // Start our server and start to listen
 app.listen(process.env.PORT || 3000, function() {
   console.log('listening');
@@ -115,4 +131,16 @@ var keysArray = Object.keys(jsonContent);
 	else{
 		return false;
 	}
+}
+
+function save(data) {
+var fileName = './data.json';
+var content = fs.readFileSync("data.json");
+var jsonContent = JSON.parse(content);
+var keysArray = Object.keys(jsonContent);
+	console.log([keysArray[0]][0].CountdownTimer);
+		jsonContent[keysArray[0]][0].CountdownTimer = data;
+		fs.writeFile(fileName, JSON.stringify(jsonContent,null,2), function (err) {
+		if (err) return console.log(err);
+	 	 });
 }
