@@ -1,106 +1,103 @@
-app.controller('mainController', ['$scope','$http','$location','loginService','$rootScope','$timeout',
- function($scope,$http,$location,loginService,$rootScope,$timeout) {         
+app.controller('mainController', ['$window','$scope','$http','$location','userService','$rootScope','$timeout',
+ function($window,$scope,$http,$location,userService,$rootScope,$timeout) {         
+    $scope.onExit = function() {
+      console.log('bey');
+    };
+ $scope.message = 'Hello World1';
+   $window.onunload =  $scope.onExit;
+
+
+
 $scope.resultColor = 'yellow';
 generateNumber();
-// timer('init');
-// countDown();
-// $scope.message = 'Hello World1';
-//$scope.newData = 'Hello';
 
-
-
+$scope.timer = '1h 30m 00s';
 
 function generateNumber() {
 var random = Math.floor(Math.random() * 90000) + 10000;
 $scope.newData = random;     
 }
 
-// function timer(status) {
-// if(status == 'init'){
-// 	$scope.resultColor = 'blue';
-// }
-// };
-
-
-// var countDownTime = new Date().getTime() + 5400000;
-// function countDown(){
-// var currentTime = new Date().getTime();
-// var distance = countDownTime - currentTime;
-// var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-// var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-// var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-// $scope.timer= hours + "h "    + minutes + "m " + seconds + "s ";
-// $timeout(countDown, 1000);
-// };
-
-
-
-var countDownTime = 5400000;
+var countDownTime = 50000;
 $scope.active = true;
 
-$scope.start = function() {
+$scope.start = function () {
+  $scope.show = true;
+  $scope.startTimer();
+}
+
+$scope.startTimer = function() {
+    $scope.myVar = false;
     $scope.active = true;
+    $scope.message = '';
     $scope.countdown();
 };
 
 $scope.pause = function() {
+    $scope.myVar = true;
     $scope.active = false;
+    $scope.message = 'Paused';
 };
 
 $scope.stop = function () {
     $timeout.cancel(countdownStop);
 }
 
-
 $scope.countdown = function () {
     countdownStop = $timeout(function () {
-        if (countDownTime == 0) {
-            $scope.stop();
-             }
-        else {
-            if ($scope.active) {
+          if ($scope.active) {
                 var currentTime = 0;
                 countDownTime = countDownTime - 1000;
-				var hours = Math.floor((countDownTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-				var minutes = Math.floor((countDownTime % (1000 * 60 * 60)) / (1000 * 60));
-				var seconds = Math.floor((countDownTime % (1000 * 60)) / 1000);
-				$scope.timer= hours + "h "    + minutes + "m " + seconds + "s ";
+        var hours = Math.floor((countDownTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((countDownTime % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((countDownTime % (1000 * 60)) / 1000);
+        $scope.timer= hours + "h "    + minutes + "m " + seconds + "s ";
                  $scope.countdown();
             }
-        }
+        else {
+            if (countDownTime < 0) {
+            $scope.stop();
+            $scope.message = 'Expired';
+            $scope.timer="Expired";
+             }        }
     }, 1000);
 };
 
+$scope.Verify_number = function() {
+                if($scope.userInput == null){
+                    return false;
+                }else if($scope.userInput == $scope.newData){
+                    $scope.lastResult = "Correct!";
+                    $scope.resultColor = 'lightblue';
+                    // totalCorrect = totalCorrect + 1;
+                    // console.log("Correct: "+totalCorrect);
+                } else{
+                    $scope.lastResult = "Incorrect!";
+                    $scope.resultColor = 'red';
+                    // totalIncorrect = totalIncorrect + 1;
+                    // console.log("Incorrect: "+ totalIncorrect);
+                }
+                // totalAttempts = totalAttempts + 1;
+                // console.log("Attempts: "+totalAttempts);
+                // updateResultTable();
+                generateNumber();
+                $scope.userInput = "";
+                // saveData();
 
-
-
-   //   // If the count down is over, write some text 
-   //  if (distance < 0) {
-   //      clearInterval(x);
-   //      document.getElementById("demo").innerHTML = "EXPIRED";
-   //      expire();
-   //  }
-   //  }, 1000);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+               }  
 
 
 
 $scope.logOut = function () {
-generateNumber();
+  userService.save(countDownTime, function(response){
+                 if(response.data.code) {
+                  $scope.message = response.data.message;
+                    //loginService.SetCredentials($scope.username, $scope.password);
+                    //$location.path('/main');
+                  } else {
+                  $scope.message = response.data.message;
+                  }
+        });
 // $location.path('/');
 }       
 
