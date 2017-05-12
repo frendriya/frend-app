@@ -7,6 +7,24 @@ register  2 h  -- done
 main page  4h
 logout    1 h
 session management.
+username chahiye
+Timer issue.--done
+Remove Include Issue --done
+History Page -- done
+Sorting Filtering --done
+Issue Fixes
+
+
+
+
+
+Block Sat and Sun
+Implement Money
+Disable after expiry --done
+negative clock --done
+set TA,TC,TI -- done
+get timer  --done
+save data before refreshing -- done
 ------------------------------------------------------------------------------------
 
 {
