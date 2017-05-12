@@ -8,9 +8,9 @@ app.config(function($routeProvider,$locationProvider) {
 				controller  : 'loginController'
 			})
 			// // route for the contact page
-			.when('/contact', {
-				templateUrl : 'contact.html',
-				controller  : 'contactController'
+			.when('/history', {
+				templateUrl : 'history.html',
+				controller  : 'historyController'
 			})
 			.when('/register', {
 				templateUrl : 'registration.html',
